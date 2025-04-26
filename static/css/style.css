@@ -1,69 +1,55 @@
+/* Base styles for body */
+/* Base styles for body */
 body {
-    background-color: #121212;
-    color: white;
+    --bg-color: #ffffff; /* Default light mode background */
+    --text-color: #000000; /* Default light mode text */
+    --sidebar-bg: #f8f9fa; /* Default light mode sidebar background */
+    --sidebar-link: #000000; /* Default light mode sidebar link color */
+    --sidebar-link-hover: #0056b3; /* Default light mode link hover color */
+    --content-bg: #ffffff; /* Default light mode content background */
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Dark mode */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --sidebar-bg: #181818;
+    --sidebar-link: #ffffff;
+    --sidebar-link-hover: #333333;
+    --content-bg: #1e1e1e;
+}
+
+
+/* Sidebar */
 .sidebar {
-    width: 250px;
-    background-color: #181818;
-    min-height: 100vh;
-    padding-top: 20px;
-    padding-left: 15px;
+    background-color: var(--sidebar-bg);
 }
 
-.sidebar h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-.sidebar .nav-link {
-    color: white;
-    margin-bottom: 10px;
-    font-size: 16px;
-}
-
-.sidebar .nav-link:hover {
-    background-color: #333333;
-    border-radius: 8px;
-    padding: 8px 15px;
-}
-
+/* Content */
 .content {
-    background-color: #1e1e1e;
-    min-height: 100vh;
+    background-color: var(--content-bg);
+}
+
+/* Nav Links */
+.nav-link {
+    color: var(--sidebar-link);
+}
+.chart-row {
+    display: flex;
+    justify-content: space-between; /* Spread elements evenly */
+    gap: 20px; /* Add space between charts */
+}
+.chart-section {
+    flex: 1; /* Allow sections to adjust their width proportionally */
     padding: 20px;
-}
-
-.content h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-}
-
-.content p {
-    font-size: 1.1em;
-    line-height: 1.6;
-}
-
-/* Responsive Design for smaller screens */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        padding-top: 10px;
-        padding-left: 10px;
-    }
-
-    .content {
-        padding: 10px;
-    }
-
-    .sidebar h2 {
-        font-size: 1.2em;
-    }
-
-    .sidebar .nav-link {
-        font-size: 14px;
-    }
+    text-align: center;
+    border: 1px solid #ccc; /* Optional: to visually separate sections */
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }

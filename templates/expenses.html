@@ -1,35 +1,84 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block content %}
-<h2>Expenses</h2>
+{% if logged_in %}
+<h2 class="mb-4">My Expenses</h2>
 
-<a href = "{{ url_for('add') }}" class="btn btn-primary mb-3">+ New Expense</a>
+<form method="get" action="{{ url_for('expenses') }}" class="d-flex gap-3 mb-4 align-items-end flex-wrap">
+    <div>{{ form.category(class="form-select") }}</div>
+    <div>{{ form.month(class="form-select") }}</div>
+    <div>{{ form.submit(class="btn btn-primary") }}</div>
 
-<table class="table table-dark table-hover">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Merchant</th>
-      <th>Amount</th>
-      <th>Category</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2024-04-26</td>
-      <td>McFood</td>
-      <td>$10</td>
-      <td>Food</td>
-      <td><span class="badge bg-danger">Not Submitted</span></td>
-    </tr>
-    <tr>
-      <td>2024-04-25</td>
-      <td>Office Supplies</td>
-      <td>$25</td>
-      <td>Stationery</td>
-      <td><span class="badge bg-success">Submitted</span></td>
-    </tr>
-  </tbody>
+    <div class="ms-auto">
+        <a href="{{ url_for('add') }}" class="btn btn-success">➕ Add Expense</a>
+    </div>
+</form>
+
+
+
+<table class="table table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Amount (₹)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expenses.items %}
+        <tr>
+            <td>{{ expense.date }}</td>
+            <td>{{ expense.category }}</td>
+            <td>{{ expense.description or '-' }}</td>
+            <td>{{ expense.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
+
+<!-- Pagination Controls -->
+<nav aria-label="Expenses Pagination">
+  <ul class="pagination">
+    {% if expenses.has_prev %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('expenses', page=expenses.prev_num, category=selected_category, month=selected_month) }}">Previous</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Previous</span>
+      </li>
+    {% endif %}
+
+    {% for page_num in expenses.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+      {% if page_num %}
+        {% if page_num == expenses.page %}
+          <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="{{ url_for('expenses', page=page_num, category=selected_category, month=selected_month) }}">{{ page_num }}</a></li>
+        {% endif %}
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if expenses.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="{{ url_for('expenses', page=expenses.next_num, category=selected_category, month=selected_month) }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next</span>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% else %}
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="text-center">
+                <h2>Access Denied</h2>
+                <p class="mt-3">You need to log in to access this page.</p>
+                <a href="/login" class="btn btn-primary mt-4">Go to Login</a>
+            </div>
+        </div>
+        {% endif %}
 {% endblock %}

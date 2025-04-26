@@ -1,36 +1,76 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Expenses Overview</h2>
+    {% if logged_in %}
+    <h2>Expenses Overview</h2>
 
-<div class="charts-container">
-    <div class="left-side">
-        <canvas id="pieChart" width="300" height="300"></canvas>
-        <table id="dataTable">
-            <thead>
-                <tr><th>Category</th><th>Amount</th><th>%</th></tr>
-            </thead>
-            <tbody>
-                {% for category, amount, percent in table_data %}
-                <tr>
-                    <td>{{ category }}</td>
-                    <td>{{ amount }}</td>
-                    <td>{{ percent }}%</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="right-side">
-        <canvas id="barChart" width="300" height="300"></canvas>
-    </div>
-</div>
-{% endblock %}
+    <div class="charts-container">
+        <!-- Row: Pie Chart and Bar Chart -->
+        <div class="chart-row">
+            <!-- Left: Expense Distribution (Pie Chart) -->
+            <div class="chart-section">
+                <h3>Expense Distribution</h3>
+                <canvas id="pieChart" width="400" height="400"></canvas>
+            </div>
 
-{% block scripts %}
+            <!-- Right: Monthly Breakdown (Bar Chart) -->
+            <div class="chart-section">
+                <h3>Monthly Breakdown</h3>
+                <canvas id="barChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+        <!-- Row: Expense Details Table -->
+        <div class="chart-section">
+            <h3>Expense Details</h3>
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, amount, percent in table_data %}
+                    <tr>
+                        <td>{{ category }}</td>
+                        <td>{{ amount }}</td>
+                        <td>{{ percent }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+            {% else %}
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+            <div class="text-center">
+                <h2>Access Denied</h2>
+                <p class="mt-3">You need to log in to access this page.</p>
+                <a href="/login" class="btn btn-primary mt-4">Go to Login</a>
+            </div>
+        </div>
+        {% endif %}
+    {% endblock %}
+
+    {% block scripts %}
     <script>
         const categories = {{ categories | tojson }};
         const amounts = {{ amounts | tojson }};
     </script>
     <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+        <script>
+          const toggleBtn = document.getElementById('darkModeToggle');
+          toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+
+            if (document.body.classList.contains('dark-mode')) {
+              toggleBtn.innerHTML = '☀️ Light Mode';
+            } else {
+              toggleBtn.innerHTML = '🌙 Dark Mode';
+            }
+          });
+        </script>
+
 {% endblock %}
