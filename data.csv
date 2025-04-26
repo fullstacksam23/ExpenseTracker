@@ -1,0 +1,67 @@
+description,category,amount,type
+Bought rice from supermarket,Food & Drinks,500,expense
+Uber ride to college,Transport,100,expense
+Ordered pizza from Dominos,Food & Drinks,300,expense
+Recharge mobile prepaid plan,Utilities,50,expense
+Purchased exam textbooks,Education,200,expense
+Paid tuition fees for semester,Education,1000,expense
+Netflix monthly subscription,Entertainment,300,expense
+Bought new shoes from Adidas,Shopping,2500,expense
+Paid hostel room rent,Rent & Housing,1500,expense
+Doctor consultation fee,Healthcare,100,expense
+Movie ticket for Avengers,Entertainment,500,expense
+Flipkart shopping - jeans,Shopping,1200,expense
+Bus ticket to home town,Transport,300,expense
+Amazon Prime annual plan,Entertainment,400,expense
+Dinner at McDonald's,Food & Drinks,200,expense
+Electricity bill payment,Utilities,1500,expense
+Flight ticket to Delhi,Travel,3000,expense
+Monthly WiFi internet bill,Utilities,500,expense
+Medicine from Apollo pharmacy,Healthcare,150,expense
+Groceries for the week,Food & Drinks,500,expense
+Ola cab to airport,Transport,250,expense
+Booking hotel on MakeMyTrip,Travel,200,expense
+Bought headphones online,Shopping,1000,expense
+Donation to NGO,Financial Services,200,expense
+Swiggy lunch order,Food & Drinks,50,expense
+Top up Paytm wallet,Financial Services,150,expense
+Exam registration fees,Education,500,expense
+Mobile screen repair,Utilities,100,expense
+Purchased gift for friend,Shopping,500,expense
+Room rent to landlord,Rent & Housing,1500,expense
+Grocery shopping at DMart,Food & Drinks,300,expense
+Train ticket to Hyderabad,Transport,200,expense
+Movie night with friends,Entertainment,300,expense
+Tuition class monthly fee,Education,1000,expense
+Uber to railway station,Transport,150,expense
+Phone bill payment,Utilities,200,expense
+Shopping for Diwali dress,Shopping,1500,expense
+Lunch at Subway,Food & Drinks,150,expense
+Pharmacy bill for cold medicine,Healthcare,80,expense
+Recharge DTH pack,Utilities,100,expense
+Booked hostel for vacation,Travel,800,expense
+Credit card EMI payment,Financial Services,1200,expense
+Flipkart Big Billion Day shopping,Shopping,3000,expense
+Swiggy breakfast order,Food & Drinks,100,expense
+Petrol for bike,Transport,500,expense
+Netflix shared account,Entertainment,200,expense
+Bought notebooks and pens,Education,50,expense
+Online yoga class fee,Education,300,expense
+Snacks at college canteen,Food & Drinks,150,expense
+Prepaid mobile recharge,Utilities,200,expense
+Paid rent for PG,Rent & Housing,500,expense
+Zomato midnight meal,Food & Drinks,100,expense
+Flight to hometown,Travel,2000,expense
+Bought skincare products,Shopping,500,expense
+Electricity and water bill,Utilities,150,expense
+Library membership fees,Education,300,expense
+Scholarship credited,Education,5000,money_received
+Cashback from Paytm,Financial Services,150,money_received
+Refund from Amazon,Shopping,1200,money_received
+Freelance project payment,Financial Services,8000,money_received
+Sold old textbooks,Education,700,money_received
+Bank interest credited,Financial Services,300,money_received
+Refund from IRCTC,Travel,600,money_received
+Gift money from relatives,Financial Services,2000,money_received
+Refund from hostel,Rent & Housing,1500,money_received
+Won online quiz competition,Education,1000,money_received

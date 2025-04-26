@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Expenses Overview</h2>
+
+<div class="charts-container">
+    <div class="left-side">
+        <canvas id="pieChart" width="300" height="300"></canvas>
+        <table id="dataTable">
+            <thead>
+                <tr><th>Category</th><th>Amount</th><th>%</th></tr>
+            </thead>
+            <tbody>
+                {% for category, amount, percent in table_data %}
+                <tr>
+                    <td>{{ category }}</td>
+                    <td>{{ amount }}</td>
+                    <td>{{ percent }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="right-side">
+        <canvas id="barChart" width="300" height="300"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const categories = {{ categories | tojson }};
+        const amounts = {{ amounts | tojson }};
+    </script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

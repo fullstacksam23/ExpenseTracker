@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block content %}
+<h1>New Expense</h1>
+
+
+  <div class="col-md-6">
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      {{ render_form(form) }}
+    </form>
+  </div>
+
+
+{% endblock %}
