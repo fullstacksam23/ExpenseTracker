@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MiniLedger</title>
+    <title>XSpend</title>
     {% block styles %}
         {{ bootstrap.load_css() }}
          <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/rewards.css') }}">
     {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -14,13 +15,14 @@
     <div class="d-flex">
         <!-- Sidebar -->
         <div class="sidebar p-3">
-            <h2>MiniLedger</h2>
+            <h2>XSpend</h2>
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('expenses') }}">Expenses</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('get_prediction') }}">Chat Bot</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('generate_and_validate_coupon') }}">Rewards</a></li>
             </ul>
             <hr>
-            <button id="darkModeToggle" class="btn btn-outline-secondary w-100 mt-3">🌙 Dark Mode</button>
 
             <a class="btn btn-outline-secondary w-100 mt-3" href="{{ url_for('login') }}">Login</a>
             <a class="btn btn-outline-secondary w-100 mt-3" href = "{{ url_for('logout') }}">Logout</a>

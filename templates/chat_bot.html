@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker Chatbot</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>💬 Expense Tracker Chatbot</h1>
+        <div id="chat-box"></div>
+        <form id="chat-form">
+            <input type="text" id="message" placeholder="Describe your expense..." required>
+            <input type="number" id="amount" placeholder="₹ Amount" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const chatBox = document.getElementById('chat-box');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+            const amount = document.getElementById('amount').value;
+
+            chatBox.innerHTML += `<div class="user-message">You: ${message} for ₹${amount}</div>`;
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, amount })
+            });
+
+            const data = await response.json();
+
+            chatBox.innerHTML += `
+                <div class="bot-message">
+                    <strong>Category:</strong> ${data.category} <br>
+                    <strong>Status:</strong> ${data.status} <br>
+                    <strong>Tip:</strong> ${data.saving_tip}
+                </div>
+            `;
+
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+            form.reset();
+        });
+    </script>
+</body>
+</html>

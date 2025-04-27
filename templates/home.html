@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
+        <div class="streak-container">
+        <h2>🔥 Your Streak: <span class="streak-count">{{ streak }}</span> day/s!</h2>
+    </div>
     {% if logged_in %}
     <h2>Expenses Overview</h2>
 
     <div class="charts-container">
+        <div class="chart-section">
+            <div class="chart-row">
+                <img id="graph-img" src="https://pixe.la/v1/users/{{ username }}/graphs/{{ graph_id }}" alt="Pixela Graph">
+            </div>
+        </div>
         <!-- Row: Pie Chart and Bar Chart -->
+
         <div class="chart-row">
             <!-- Left: Expense Distribution (Pie Chart) -->
             <div class="chart-section">
@@ -22,26 +31,27 @@
 
         <!-- Row: Expense Details Table -->
         <div class="chart-section">
-            <h3>Expense Details</h3>
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Amount</th>
-                        <th>%</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for category, amount, percent in table_data %}
-                    <tr>
-                        <td>{{ category }}</td>
-                        <td>{{ amount }}</td>
-                        <td>{{ percent }}%</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <h3>Expense Details</h3>
+    <table id="dataTable" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; margin-top: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <thead>
+            <tr style="background-color: #4CAF50; color: white; text-align: left;">
+                <th style="padding: 12px;">Category</th>
+                <th style="padding: 12px;">Amount</th>
+                <th style="padding: 12px;">%</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category, amount, percent in table_data %}
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td style="padding: 12px;">{{ category }}</td>
+                <td style="padding: 12px;">${{ "%.2f"|format(amount) }}</td>
+                <td style="padding: 12px;">{{ percent }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
     </div>
             {% else %}
             <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">

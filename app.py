@@ -1,4 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, flash
+import random
+import string
+import time
+
+from flask import Flask, render_template, redirect, url_for, flash, jsonify, session
 from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
@@ -10,9 +14,14 @@ from wtforms.validators import DataRequired, Optional
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask import request
 from sqlalchemy import Integer, String
+import requests
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap5(app)
+USERNAME = "sam1920"
+TOKEN = "uSrSDRKqk7baT2A410utDKcLZJ0fcVfBWijIKCgk5rWy3b6ALTtvZitH8qhyh0xq2msOyyThlpqZuWlufMP0bo0VsRbYo19RiWfdadW7QdPbF0xJilDev53eI"
+GRAPH_ID = "expensegraph"
+PIXELA_ENDPOINT = f"https://pixe.la/v1/users/{USERNAME}/graphs/{GRAPH_ID}/"
 
 class Base(DeclarativeBase):
   pass
@@ -119,6 +128,28 @@ def login():
     return render_template("login.html", logged_in=current_user.is_authenticated)
 @app.route('/')
 def home():
+    current_time = int(time.time())
+
+    # Check if last login time is stored in the session
+    last_login_time = session.get('last_login_time')
+
+    # Check if streak is stored in the session, if not, set it to 0
+    streak = session.get('streak', 0)
+
+    if last_login_time:
+        # Check if 24 hours have passed since the last login
+        if current_time - last_login_time > 86400:  # 24 hours in seconds
+            # If 24 hours have passed, reset the streak to 0
+            streak = 0
+
+    # Increase the streak if the user logged in and it's not 24 hours yet
+    streak += 1
+
+    # Store the updated values in the session
+    session['streak'] = streak
+    session['last_login_time'] = current_time
+
+
     categories = []
     amounts = []
     table_data = []
@@ -142,7 +173,7 @@ def home():
             percent = round((amount / total_expense) * 100, 1)
             table_data.append((category, amount, percent))
 
-    return render_template('home.html', categories=categories, amounts=amounts, table_data=table_data, logged_in=current_user.is_authenticated)
+    return render_template('home.html', categories=categories, amounts=amounts, table_data=table_data, logged_in=current_user.is_authenticated,username=USERNAME, graph_id=GRAPH_ID, streak=1)
 
 
 @app.route('/logout')
@@ -207,25 +238,41 @@ def add():
 
     return render_template('add_expense.html', form=form)
 
+@app.route("/delete/<int:id>", methods=["GET"])
+@login_required
+def delete(id):
+    entry = db.session.execute(db.select(Expenses).where(Expenses.id == id)).scalar()
+    db.session.delete(entry)
+    db.session.commit()
+    return redirect(url_for("expenses"))
 
-# @app.route('/signup')
-# def signup():
-#     return render_template('signup.html')
-# @app.route('/charts')
-# def charts():
-#     expenses = Expenses.query.filter_by(transaction_type='Expense').all()
-#
-#     # Group by category and sum amounts
-#     category_map = {}
-#     for exp in expenses:
-#         if exp.category in category_map:
-#             category_map[exp.category] += exp.amount
-#         else:
-#             category_map[exp.category] = exp.amount
-#
-#     categories = list(category_map.keys())
-#     amounts = list(category_map.values())
+@app.route('/predict', methods=['POST', "GET"])
+def get_prediction():
+    return redirect("http://127.0.0.1:8000/")
 
-    return render_template('charts.html', categories=categories, amounts=amounts)
+def generate_coupon(length=8):
+    characters = string.ascii_uppercase + string.digits
+    coupon_code = ''.join(random.choices(characters, k=length))
+    return coupon_code
+
+# List of valid coupon codes
+coupon_codes = ['ABCD1234', 'EFGH5678', 'IJKL9101']
+
+# Function to validate coupon code
+def validate_coupon(coupon_code):
+    if coupon_code in coupon_codes:
+        return True
+    else:
+        return False
+
+
+@app.route('/rewards', methods=['POST', "GET"])
+def generate_and_validate_coupon():
+    if request.method == "POST":
+        coupon_code = generate_coupon()
+        return render_template("rewards.html", code=coupon_code)
+    return render_template("rewards.html", code="")
+
+
 if __name__ == '__main__':
     app.run(debug=True)
